@@ -25,6 +25,8 @@
 #include "system.h"
 #include "syscall.h"
 
+#define MaxFileLength 32 // Do dai quy uoc cho file name
+
 //----------------------------------------------------------------------
 // ExceptionHandler
 // 	Entry point into the Nachos kernel.  Called when a user program
