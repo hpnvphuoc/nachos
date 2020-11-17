@@ -53,11 +53,56 @@ ExceptionHandler(ExceptionType which)
 {
     int type = machine->ReadRegister(2);
 
-    if ((which == SyscallException) && (type == SC_Halt)) {
-	DEBUG('a', "Shutdown, initiated by user program.\n");
-   	interrupt->Halt();
-    } else {
-	printf("Unexpected user mode exception %d %d\n", which, type);
-	ASSERT(FALSE);
-    }
+	switch (which)
+	{
+	case NoException:
+		return;
+	case PageFaultException:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nNo valid translation found")
+		interrupt->Halt();
+		break;
+	case ReadOnlyException:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nWrite attempted to page marked read-only");
+		interrupt->Halt();
+		break;
+	case BusErrorException:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nTranslation resulted in an invalid physical address");
+		interrupt->Halt();
+		break;
+	case AddressErrorException:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nUnaligned reference or one thatwas beyond the end of theaddress space");
+		interrupt->Halt();
+		break;
+	case OverflowException:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nInteger overflow in add or sub");
+		interrupt->Halt();
+		break;
+	case IllegalInstrException:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nUnimplemented or reserved instr.");
+		interrupt->Halt();
+		break;
+	case NumExceptionTypes:
+		DEBUG('a', "shutdown, initiated by user program");
+		printf("\n\nNumExceptionTypes");
+		interrupt->Halt();
+		break;
+	case SyscallException:
+		switch (type)
+		{
+		case SC_Halt: 
+			DEBUG('a', "shutdown, initiated by user program");
+			interrupt->Halt();
+		default:
+			break;
+		}
+	default:
+		break;
+	}
+
 }
