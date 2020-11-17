@@ -47,6 +47,14 @@
 //	"which" is the kind of exception.  The list of possible exceptions 
 //	are in machine.h.
 //----------------------------------------------------------------------
+void IncreasePC()
+{
+	int counter = machine->ReadRegister(PCReg);
+	machine->WriteRegister(PrevPCReg, counter);
+	counter = machine->ReadRegister(NextPCReg);
+	machine->WriteRegister(PCReg, counter);
+	machine->WriteRegister(NextPCReg, counter + 4);
+}
 
 void
 ExceptionHandler(ExceptionType which)
