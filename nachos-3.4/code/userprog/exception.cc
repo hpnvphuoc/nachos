@@ -59,7 +59,7 @@ ExceptionHandler(ExceptionType which)
 		return;
 	case PageFaultException:
 		DEBUG('a', "shutdown, initiated by user program");
-		printf("\n\nNo valid translation found")
+		printf("\n\nNo valid translation found");
 		interrupt->Halt();
 		break;
 	case ReadOnlyException:
