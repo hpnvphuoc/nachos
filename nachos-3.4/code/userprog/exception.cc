@@ -147,6 +147,7 @@ ExceptionHandler(ExceptionType which)
 			DEBUG('a', "shutdown, initiated by user program");
 			interrupt->Halt();
 		case SC_Create:
+		{
 			// Input: Dia chi tu vung nho user cua ten file
 			// Output: -1 = Loi, 0 = Thanh cong
 			// Chuc nang: Tao ra file voi tham so la ten file
@@ -166,7 +167,7 @@ ExceptionHandler(ExceptionType which)
 				DEBUG('a', "\n File name is not valid");
 				machine->WriteRegister(2, -1); //Return -1 vao thanh ghi R2
 				IncreasePC();
-				IncreasePC();
+				//IncreasePC();
 				//return;
 				break;
 			}
@@ -200,6 +201,7 @@ ExceptionHandler(ExceptionType which)
 			IncreasePC(); //Day thanh ghi lui ve sau de tiep tuc ghi
 			//return;
 			break;
+		}
 		default:
 			break;
 		}
