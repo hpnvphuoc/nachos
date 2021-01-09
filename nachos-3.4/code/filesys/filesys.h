@@ -92,6 +92,16 @@ class FileSystem {
 
 
     bool Remove(char *name) { return Unlink(name) == 0; }
+	//Ham tim slot trong
+	int FindFreeSlot()
+	{
+		for (int i = 2; i < 15; i++)
+		{
+			if (openf[i] == NULL) return i;
+		}
+		return -1;
+	}
+
 
 };
 
