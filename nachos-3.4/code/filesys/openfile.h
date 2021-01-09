@@ -63,8 +63,14 @@ class FileHeader;
 
 class OpenFile {
   public:
+      int type;
+      //0: read and write
+      //1: read only
+      //2: stdin
+      //3: stdout
     OpenFile(int sector);		// Open a file whose header is located
 					// at "sector" on the disk
+    OpenFile(int sector, int type);
     ~OpenFile();			// Close the file
 
     void Seek(int position); 		// Set the position from which to 

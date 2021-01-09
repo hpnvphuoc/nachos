@@ -93,6 +93,7 @@ void Create(char *name);
  * be used to read and write to the file.
  */
 OpenFileId Open(char *name);
+OpenFileId Open(char* name, int type);
 
 /* Write "size" bytes from "buffer" to the open file. */
 void Write(char *buffer, int size, OpenFileId id);

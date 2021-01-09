@@ -52,6 +52,14 @@ OpenFile::~OpenFile()
 //	"position" -- the location within the file for the next Read/Write
 //----------------------------------------------------------------------
 
+OpenFile::OpenFile(int sector, int _type)
+{
+    hdr = new FileHeader;
+    hdr->FetchFrom(sector);
+    seekPosition = 0;
+    type = _type;
+}
+
 void
 OpenFile::Seek(int position)
 {

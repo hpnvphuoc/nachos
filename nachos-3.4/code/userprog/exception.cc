@@ -204,6 +204,65 @@ ExceptionHandler(ExceptionType which)
 			//return;
 			break;
 		}
+		case SC_Open: {
+			//function OpenFileId Open(char *name, int type);
+			// Input: arg1: Dia chi cua chuoi name, arg2: type
+			// Output: Tra ve OpenFileID neu thanh, -1 neu loi
+			// Chuc nang: Tra ve ID cua file.
+
+			//OpenFileID Open(char *name, int type)
+			int virtAddr = machine->ReadRegister(4); // Lay dia chi cua tham so name tu thanh ghi so 4
+			int type = machine->ReadRegister(5); // Lay tham so type tu thanh ghi so 5
+			char* filename;
+			filename = User2System(virtAddr, MaxFileLength); // Copy chuoi tu vung nho User Space sang System Space voi bo dem name dai MaxFileLength
+			//Kiem tra xem OS con mo dc file khong
+
+			// update 4/1/2018
+			int freeSlot = fileSystem->FindFreeSlot();
+			if (freeSlot != -1) //Chi xu li khi con slot trong
+			{
+				if (type == 0 || type == 1) //chi xu li khi type = 0 hoac 1
+				{
+
+					if ((fileSystem->openf[freeSlot] = fileSystem->Open(filename, type)) != NULL) //Mo file thanh cong
+					{
+						machine->WriteRegister(2, freeSlot); //tra ve OpenFileID
+					}
+				}
+				else if (type == 2) // xu li stdin voi type quy uoc la 2
+				{
+					machine->WriteRegister(2, 0); //tra ve OpenFileID
+				}
+				else // xu li stdout voi type quy uoc la 3
+				{
+					machine->WriteRegister(2, 1); //tra ve OpenFileID
+				}
+				delete[] filename;
+				break;
+			}
+			machine->WriteRegister(2, -1); //Khong mo duoc file return -1
+
+			delete[] filename;
+			break;
+		}
+		case SC_Close: {
+			//function void Close(OpenFileId id);
+			//Input id cua file(OpenFileID)
+			// Output: 0: thanh cong, -1 that bai
+			int fid = machine->ReadRegister(4); // Lay id cua file tu thanh ghi so 4
+			if (fid >= 0 && fid <= 9) //Chi xu li khi fid nam trong [0, 14]
+			{
+				if (fileSystem->openf[fid]) //neu mo file thanh cong
+				{
+					delete fileSystem->openf[fid]; //Xoa vung nho luu tru file
+					fileSystem->openf[fid] = NULL; //Gan vung nho NULL
+					machine->WriteRegister(2, 0);
+					break;
+				}
+			}
+			machine->WriteRegister(2, -1);
+			break;
+		}
 		default:
 			break;
 		}
