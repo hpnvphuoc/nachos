@@ -92,8 +92,7 @@ void Create(char *name);
 /* Open the Nachos file "name", and return an "OpenFileId" that can 
  * be used to read and write to the file.
  */
-OpenFileId Open(char *name);
-OpenFileId Open(char* name, int type);
+OpenFileId Open(char *name,int type);
 
 /* Write "size" bytes from "buffer" to the open file. */
 void Write(char *buffer, int size, OpenFileId id);
