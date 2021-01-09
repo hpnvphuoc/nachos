@@ -81,7 +81,7 @@ class FileSystem {
 	  if (fileDescriptor == -1) return NULL;
 	  return new OpenFile(fileDescriptor);
       }
-	Overload hàm open de mo file o 2 che do khac nhau
+	//Overload hàm open de mo file o 2 che do khac nhau
 	OpenFile* Open(char* name, int type) {
 		int fileDescriptor = OpenForReadWrite(name, FALSE);
 
